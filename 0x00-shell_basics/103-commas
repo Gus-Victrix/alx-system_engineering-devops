@@ -1,2 +1,2 @@
 #!/bin/bash
-ls -amxp --group-directories-first .\n
+ls -amxp --group-directories-first . \n
