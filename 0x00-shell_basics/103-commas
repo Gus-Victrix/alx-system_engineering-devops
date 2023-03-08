@@ -1,2 +1,2 @@
 #!/bin/bash
-ls -axp -m .  
+ls -a -p -m -x --group-directories-first
