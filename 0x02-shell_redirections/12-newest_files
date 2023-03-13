@@ -1,2 +1,2 @@
 #!/bin/bash
-ls -c -g -G -p | grep -v '/' | tail -n +2 | tail | rev | cut -f1 -d' ' | rev | head
+ls -1t | head
