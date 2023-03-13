@@ -1,0 +1,2 @@
+#!/bin/bash
+du --time ./* | sort -k2 -r | rev | cut -f1 -d'/' | rev
