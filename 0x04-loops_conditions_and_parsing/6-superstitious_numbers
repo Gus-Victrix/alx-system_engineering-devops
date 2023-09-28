@@ -4,7 +4,7 @@ i=0
 while [ "$i" -ne 20 ];
 do
 	((i++))
-	echo "Best School"
+	echo "$i"
 	case $i in
 		4) echo "bad luck from China"
 			;;
