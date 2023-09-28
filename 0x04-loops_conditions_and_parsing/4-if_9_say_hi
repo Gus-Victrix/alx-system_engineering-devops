@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# This script uses an if statement to interrupt normal flow of the script.
+i=0
+while [ $i -lt 10 ];
+do
+	((i++))
+	if [ "$i" -ne 9 ]; then
+		echo "Best School"
+	else
+		echo "Hi"
+	fi
+done
