@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Prints 1-20 and for Italy, China, and Japan, shows their bad luck numbers after them.
 i=0
-while [ "$i" -ne 20 ] ;
+while [ "$i" -ne 20 ];
 do
 	((i++))
 	echo "Best School"
