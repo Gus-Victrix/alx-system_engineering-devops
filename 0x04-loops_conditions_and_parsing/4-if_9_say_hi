@@ -4,9 +4,8 @@ i=0
 while [ $i -lt 10 ];
 do
 	((i++))
-	if [ "$i" -ne 9 ]; then
-		echo "Best School"
-	else
+	echo "Best School"
+	if [ "$i" -eq 9 ]; then
 		echo "Hi"
 	fi
 done
