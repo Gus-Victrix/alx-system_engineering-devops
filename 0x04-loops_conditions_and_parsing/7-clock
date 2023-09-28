@@ -2,12 +2,9 @@
 # This displays clock time as it changes: The hour and minutes.
 hour=0
 minute=0
-while [ 1 ];
+while [ "$hour" -ne 13 ];
 do
 	echo "Hour: $hour"
-	if [ "$hour" == 12 ]; then
-		break
-	fi
 	minute=1
 	while [ "$minute" -ne 60 ];
 	do
