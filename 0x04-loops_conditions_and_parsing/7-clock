@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+# This displays clock time as it changes: The hour and minutes.
+hour=0
+minute=0
+while [ "$hour" -ne 12 ];
+do
+	minute=1
+	while [ "$minute" -ne 60 ];
+	do
+		echo "$minute"
+		((minute++))
+	done
+	((hour++))
+	echo "Hour: $hour"
+done
