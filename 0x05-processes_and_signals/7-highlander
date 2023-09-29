@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# Run an infinite loop and trap all signal from SIGTERM
+trap 'echo I am invincible!!!' SIGTERM
+while true
+do
+    echo "To infinity and beyond"
+    sleep 2
+done
