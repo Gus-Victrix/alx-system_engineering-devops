@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# Try kill the procces of the task 4
+pkill -f "7-highlander"
