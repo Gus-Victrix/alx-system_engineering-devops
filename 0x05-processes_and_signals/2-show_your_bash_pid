@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# Display all the procces with bash inside
+ps auxf | grep "bash"
