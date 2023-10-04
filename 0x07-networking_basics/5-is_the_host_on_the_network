@@ -1,2 +1,3 @@
 #!/usr/bin/env bash
+# This script checks whether the terminal input ip address belongs to a host on the network.
 ping -c5 $1
