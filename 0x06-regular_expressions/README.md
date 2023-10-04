@@ -1,3 +1,4 @@
+![ruby logo](https://www.ruby-lang.org/images/header-ruby-logo.png)
 <h1> 0x06-Regular Expressions </h1>
 * In this project, I learned about the infamous regexes.
 * The flavor used was Ruby (An interesting introduction to the language).
