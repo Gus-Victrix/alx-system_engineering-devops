@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# This script shows the active IPv4 addresses attached to current host.
+ifconfig -a | grep -e "\binet\b" | rev | cut -d" " -f1 | rev
