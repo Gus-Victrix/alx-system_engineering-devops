@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# Opens and listens on port 98 in host
+sudo nc -l -p 98
