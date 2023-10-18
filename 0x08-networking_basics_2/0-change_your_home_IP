@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 # This script re-writes the /etc/hosts file making the home ip 127.0.0.2
-echo -e "127.0.0.2	 localhost\n8.8.8.8	 https://facebook.com" > ~/hosts.new
+echo -e "127.0.0.2	 localhost\n8.8.8.8	 facebook.com" > ~/hosts.new
 cp -f ~/hosts.new  /etc/hosts
