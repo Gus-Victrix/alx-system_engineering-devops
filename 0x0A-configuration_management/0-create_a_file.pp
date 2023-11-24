@@ -1,5 +1,5 @@
-#!/usr/bin/env puppet
-# This manifest creates a file named school in /tmp owned by www-data
+#This manifest creates a file named school in /tmp
+
 file { '/tmp/school':
     ensure  => 'present',
     content => 'I love Puppet',
