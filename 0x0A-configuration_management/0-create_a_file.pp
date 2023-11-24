@@ -1,9 +1,8 @@
 #This manifest creates a file named school in /tmp
 
 file { '/tmp/school':
-    ensure  => 'present',
+    mode    => '0755'
     content => 'I love Puppet',
     owner   => 'www-data',
     group   => 'www-data',
-    mode    => '0755'
 }
