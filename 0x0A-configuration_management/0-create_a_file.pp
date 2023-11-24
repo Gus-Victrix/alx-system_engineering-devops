@@ -1,5 +1,6 @@
 #This manifest creates a file named school in /tmp
 
+
 file { '/tmp/school':
     mode    => '0755'
     content => 'I love Puppet',
