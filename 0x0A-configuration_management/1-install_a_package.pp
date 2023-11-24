@@ -2,16 +2,18 @@
 
 package { 'python3':
   ensure  => installed,
+  provider => 'apt',
 }
 
-package { 'pip3':
-  ensure  => installed,
-  require => Package['python3'],
+package { 'python3-pip':
+  ensure   => installed,
+  require  => Package['python3'],
+  provider => 'apt',
 }
 
-package { 'Flask':
+package { 'flask':
     ensure   => '2.1.0',
-    provider => 'pip3',
-    require  => Package['pip3'],
+    provider => 'pip',
+    require  => Package['python3-pip'],
 }
 
