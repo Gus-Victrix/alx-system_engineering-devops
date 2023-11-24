@@ -1,17 +1,8 @@
-# This script installs flask from pip3
+# install_flask.pp
 
-package { 'python3':
-  ensure  => installed,
+exec { 'install_flask':
+  command => 'pip3 install Flask==2.1.0',
+  path    => '/usr/local/bin:/usr/bin:/bin',
+  creates => '/usr/local/bin/flask',  # Adjust the path based on your system
+  require => Package['python3-pip'],  # Ensure pip3 is installed first
 }
-
-package { 'pip3':
-  ensure  => installed,
-  require => Package['python3'],
-}
-
-package { 'Flask':
-    ensure   => '2.1.0',
-    provider => 'pip3',
-    require  => Package['pip3'],
-}
-
