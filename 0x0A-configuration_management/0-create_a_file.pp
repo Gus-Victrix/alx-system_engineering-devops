@@ -2,8 +2,10 @@
 
 
 file { '/tmp/school':
-    mode    => '0755'
-    content => 'I love Puppet',
+    ensure      => 'file',
     owner   => 'www-data',
     group   => 'www-data',
+  path       => '/tmp/school',
+mode    => '0755'
+    content => 'I love Puppet',
 }
