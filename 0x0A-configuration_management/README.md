@@ -4,7 +4,7 @@
 
 ### Languages & tools:
 
- * `puppet` <img href="https://icon-library.com/icon/puppet-icon-18.html.html" alt="puppet icon">
+ * `puppet`
  * Puppet's Declarative Language
  * `Puppet lint`
  * `Ubuntu 20.04 LTS`
