@@ -6,4 +6,4 @@ if [ -z "$SSH_AUTH_SOCK" ] ; then
 fi
 
 ssh-add ~/.ssh/school
-ssh -o StrictHostChecking=no ubuntu@35.175.130.237
+ssh -o StrictHostChecking=no ubuntu@100.25.36.175
