@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# Connecting to 35.175.130.237 as ubuntu using key in ~/.ssh/school
+
+if [ -z "$SSH_AUTH_SOCK" ] ; then
+	eval "$(ssh-agent -s)"
+fi
+
+ssh-add ~/.ssh/school
+ssh -o StrictHostChecking=no ubuntu@35.175.130.237
