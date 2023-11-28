@@ -2,6 +2,7 @@
 # Installing nginx onto server.
 sudo apt-get update
 sudo apt-get install -y nginx
+
 cat <<EOF | sudo tee /var/www/html/index.html > /dev/null
 <!DOCTYPE html>
 <html>
@@ -13,5 +14,17 @@ cat <<EOF | sudo tee /var/www/html/index.html > /dev/null
 </body>
 </html>
 EOF
-sudo sed -i 's/^listen 80 default_server;/listen 80;/' /etc/nginx/sites-available/default
+
+cat <<EOF | tee /etc/nginx/sites-available/default
+server {
+    listen 80;
+    server_name _;
+
+    location / {
+             root /var/www/html;
+             index index.html;
+    }
+}
+EOF
+
 sudo service nginx restart
