@@ -1,6 +1,4 @@
-# File: nginx_config.pp
-
-# Install Nginx pakage
+# Using pp to do all previous tasks
 
 exec { 'apt-update':
   command     => '/usr/bin/apt-get update',
