@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+# Transfers file from client to server
+# Usage ./0-transfer_file <path_to_file> <ip_of_server> <username> <path_to_private_key>
+
+if [ -z "$1" ]; then
+	printf "Path to file is missing\n Usage: ./0-transfer <path_to_file> <ip_of_server> <username> <path_to_private_key>";
+
+elif [ -z "$2" ]; then
+	printf "IP address of host is missing\n Usage: ./0-transfer <path_to_file> <ip_of_server> <username> <path_to_private_key>";
+elif [ -z "$3" ]; then
+	printf "Username is missing\n Usage: ./0-transfer <path_to_file> <ip_of_server> <username> <path_to_private_key>";
+elif [ -z "$4" ]; then
+	printf "Path to private key is missing\n Usage: ./0-transfer <path_to_file> <ip_of_server> <username> <path_to_private_key>";
+else
+	scp -o StrictHostKeyChecking=no -i "$4" "$1" "$3"@"$2":~/
+fi
