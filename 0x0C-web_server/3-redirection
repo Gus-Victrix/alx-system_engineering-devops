@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# Setting up Nginx
+
+sudo apt update -y
+sudo apt install nginx -y
+
+sudo echo "Hello World!" > /var/www/index.html
+
+sudo sed -i '/listen 80 default_server;/a rewrite ^/redirect_me https://www.youtube.com/watch?v=pLyLErufrVs permanent;/' /etc/nginx/sites-available/default
+sudo service nginx restart
