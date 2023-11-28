@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+# Customizing 404
+
+apt-get update
+
+apt-get install -y nginx
+
+echo "Hello World!" | tee /var/www/html/index.html
+
+cat <<EOF | tee /etc/nginx/sites-available/default
+server {
+     listen 80;
+     server_name _;
+
+     root /etc/nginx/html;
+     index index.html;
+
+     location /redirect_me {
+       return 301 http://kelvino.com;
+     }
+
+     error_page 404 /404.html;
+     location = /404.html {
+         root /var/www/html;
+     }
+}
+EOF
+
+echo "Ceci n'est pas une page" | tee /var/www/html/404.html
+
+service nginx restart
