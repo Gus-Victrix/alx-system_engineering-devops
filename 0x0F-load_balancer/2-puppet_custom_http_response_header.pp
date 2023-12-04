@@ -5,9 +5,9 @@ exec { 'update':
 }
 
 package { 'nginx':
-  ensure   => present,
-  name     => 'nginx',
-  require  => Exec['update'],
+  ensure  => present,
+  name    => 'nginx',
+  require => Exec['update'],
 }
 
 file_line { 'Add header':
@@ -19,6 +19,6 @@ file_line { 'Add header':
 }
 
 service { 'nginx':
-  ensure     => running,
-  require    => Package['nginx'],
+  ensure  => running,
+  require => Package['nginx'],
 }
