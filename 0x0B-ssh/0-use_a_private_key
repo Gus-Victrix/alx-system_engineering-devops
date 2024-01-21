@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
-# Connecting to 35.175.130.237 as ubuntu using key in ~/.ssh/school
-
-ssh -o StrictHostChecking=no -i ~/.ssh/school ubuntu@100.25.36.175
+# Connecting to server as ubuntu using key in ~/.ssh/school
+server = '52.91.147.181'
+user = 'ubuntu'
+ssh -o StrictHostChecking=no -i ~/.ssh/school "$user@$server"
