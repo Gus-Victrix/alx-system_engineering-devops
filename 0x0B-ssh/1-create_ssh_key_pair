@@ -2,7 +2,6 @@
 # Creating 4096 bit rsa-key-pair named school and protected by passphrase betty
 type_="rsa"
 bits="4096"
-file_name="school"
+file_name="./school"
 passphrase="betty"
-echo $type_ $bits $file_name $passphrase
-ssh-keygen -t "$type_" -b "$bits" -f "$filename" -N "$passphrase"
+ssh-keygen -t "$type_" -b "$bits" -f "$file_name" -N "$passphrase"
