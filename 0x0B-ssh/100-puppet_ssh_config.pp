@@ -1,3 +1,4 @@
+#!/usr/bin/puppet
 # This file ensures certain characteristics of the ssh_config file
 # Removing password login
 file_line { 'RefusingPasswordLogin' :
