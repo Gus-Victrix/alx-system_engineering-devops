@@ -1,30 +1,26 @@
 #!/usr/bin/env bash
-# Installing nginx onto server.
-sudo apt-get update
-sudo apt-get install -y nginx
+# When run on an ubuntu server, this script installs nginx and makes it display helo world by default.
 
-cat <<EOF | sudo tee /var/www/html/index.html > /dev/null
+# Installing nginx on server
+sudo apt-get install -y nginx-extras --allow-downgrades
+
+# Owning the directories relevant to the site
+sudo chown -R $USER:$USER /var/www/html
+
+# Modify the file served by nginx on default
+sudo cat > /var/www/html/index.html << EOF
 <!DOCTYPE html>
-<html>
-<head>
-  <title>Hello World!</title>
-</head>
-<body>
-  <h1>Hello World!</h1>
-</body>
+<html lang="en">
+	<head>
+		<title> Hello World! </title>
+	</head>
+	<body>
+		<h1> Hello World! </h1>
+	</body>
 </html>
 EOF
 
-cat <<EOF | tee /etc/nginx/sites-available/default
-server {
-    listen 80;
-    server_name _;
-
-    location / {
-             root /var/www/html;
-             index index.html;
-    }
-}
-EOF
-
+# Ensure that the default server of nginx listens at port 80
+sed -Ei '0,/listen [0-9]+ default_server/{s/(\w) [0-9]+ (\w)/\1 80 \2/}' /etc/nginx/sites-available/default
+# Restart the nginx service
 sudo service nginx restart
