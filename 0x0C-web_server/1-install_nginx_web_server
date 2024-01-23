@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 # When run on an ubuntu server, this script installs nginx and makes it display helo world by default.
 
+# Updating the apt-get repository
+sudo apt-get update
 # Installing nginx on server
 sudo apt-get install -y nginx-extras --allow-downgrades
 
@@ -21,6 +23,6 @@ sudo cat > /var/www/html/index.html << EOF
 EOF
 
 # Ensure that the default server of nginx listens at port 80
-sed -Ei '0,/listen [0-9]+ default_server/{s/(\w) [0-9]+ (\w)/\1 80 \2/}' /etc/nginx/sites-available/default
+sudo sed -Ei '0,/listen [0-9]+ default_server/{s/(\w) [0-9]+ (\w)/\1 80 \2/}' /etc/nginx/sites-available/default
 # Restart the nginx service
 sudo service nginx restart
