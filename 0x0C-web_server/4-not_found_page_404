@@ -1,31 +1,39 @@
 #!/usr/bin/env bash
 # Customizing 404
+# Updating apt repositories
+sudo apt-get update
+# Installing nginx
+apt-get install -y nginx --allow-downgrades
 
-apt-get update
+# Owning the directories relevant to the site
+sudo chown -R "$USER:$USER" /var/www/html
 
-apt-get install -y nginx
-
-echo "Hello World!" | tee /var/www/html/index.html
-
-cat <<EOF | tee /etc/nginx/sites-available/default
-server {
-     listen 80;
-     server_name _;
-
-     root /etc/nginx/html;
-     index index.html;
-
-     location /redirect_me {
-       return 301 http://kelvino.com;
-     }
-
-     error_page 404 /404.html;
-     location = /404.html {
-         root /var/www/html;
-     }
-}
+# Modify the file served by nginx on default
+cat > /var/www/html/index.html << EOF
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title> Hello World! </title>
+	</head>
+	<body>
+		<h1> Hello World! </h1>
+	</body>
+</html>
 EOF
 
-echo "Ceci n'est pas une page" | tee /var/www/html/404.html
+
+sudo sed -i '/listen \[::\]:80 default_server;/a\\trewrite ^\/redirect_me https://youtu.be/XfuMEmcz3k0?list=RDZHhqwBwmRkI permanent;\n\n\terror_page 404 \/404.html;' /etc/nginx/sites-available/default
+
+cat > /var/www/html/404.html << EOF
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title> 404 </title>
+	</head>
+	<body>
+		<h1> Ceci n'est pas une page </h1>
+	</body>
+</html>
+EOF
 
 service nginx restart
