@@ -8,6 +8,7 @@ exec { 'apt-update':
 package { 'nginx':
   ensure  => installed,
   require => Exec['apt-update'],
+  provider => 'apt',
 }
 
 file { '/etc/nginx/sites-available':
@@ -20,6 +21,10 @@ file { '/etc/nginx/sites-available/default':
     listen 80;
     rewrite ^/redirect_me https://youtube.com permanent;
   }',
+}
+
+exec { 'chown -R $USER:$USER /var/www/html':
+  command => 'chown -R $USER:$USER /var/www/html',
 }
 
 file { '/var/www/html':
