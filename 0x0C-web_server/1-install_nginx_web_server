@@ -7,10 +7,10 @@ sudo apt-get update
 sudo apt-get install -y nginx-extras --allow-downgrades
 
 # Owning the directories relevant to the site
-sudo chown -R $USER:$USER /var/www/html
+sudo chown -R "$USER:$USER" /var/www/html
 
 # Modify the file served by nginx on default
-sudo cat > /var/www/html/index.html << EOF
+cat > /var/www/html/index.html << EOF
 <!DOCTYPE html>
 <html lang="en">
 	<head>
