@@ -36,4 +36,4 @@ cat > /var/www/html/404.html << EOF
 </html>
 EOF
 
-service nginx restart
+sudo service nginx restart
