@@ -1,14 +1,11 @@
 #!/usr/bin/env bash
-# When run on an ubuntu server, this script installs nginx and makes it display helo world by default.
-
-# Updating the apt-get repository
+# Customizing 404
+# Updating apt repositories
 sudo apt-get update
-# Installing nginx on server
-sudo apt-get install -y nginx-extras --allow-downgrades
-
+# Installing nginx
+sudo apt-get install -y nginx --allow-downgrades
 # Owning the directories relevant to the site
 sudo chown -R "$USER:$USER" /var/www/html
-
 # Modify the file served by nginx on default
 cat > /var/www/html/index.html << EOF
 <!DOCTYPE html>
@@ -22,8 +19,17 @@ cat > /var/www/html/index.html << EOF
 </html>
 EOF
 
-# Ensure that the default server of nginx listens at port 80
-sudo sed -Ei '0,/listen [0-9]+ default_server/{s/(\w) [0-9]+ (\w)/\1 80 \2/}' /etc/nginx/sites-available/default
-sudo sed -Ei '0,/listen 80 default_server;/a\    rewrite \^\/\/redirect_me http:\/\/youtube.com permanent;' /etc/nginx/sites-available/default
-# Restart the nginx service
+sudo sed -i '/listen \[::\]:80 default_server;/a\\trewrite ^\/redirect_me https://youtu.be/XfuMEmcz3k0?list=RDZHhqwBwmRkI permanent;' /etc/nginx/sites-available/default
+cat > /var/www/html/404.html << EOF
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title> 404 </title>
+	</head>
+	<body>
+		<h1> Ceci n'est pas une page </h1>
+	</body>
+</html>
+EOF
+
 sudo service nginx restart
