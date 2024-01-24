@@ -1,23 +1,28 @@
 #!/usr/bin/env bash
-# Setting up Nginx
 
-sudo apt update -y
-sudo apt install nginx -y
-
-echo "Hello World!" | sudo tee /var/www/index.html
-
-cat <<EOF | tee /etc/nginx/sites-available/default
-server {
-    listen 80;
-    server_name _;
-
-    root /etc/nginx/html;
-    index index.html;
-
-    location /redirect_me {
-      return 301 http://youtube.com;
-    }
-}
+# Update the apt repositories
+sudo apt update
+# Installing nginx with extras
+sudo apt install nginx-extras -y --allow-downgrades
+# Owning the directories that nginx will use
+sudo chown -R $USER:$USER /var/www
+# Create a new html file for the server
+sudo cat > /etc/nginx/html/index.html <<EOF
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Intrepidus Group</title>
+	</head>
+	<body>
+		<h1>Intrepidus Group</h1>
+		<p>Hello World!</p>
+	</body>
+</html>
 EOF
 
+
+# Setting up the default nginx site with a redirection
+sudo sed -iE '0,/listen [0-9]+ default_server;/{s/(\w) [0-9]+ (\w)/\1 80 \2\;\n    rewrite \^\/redirect_me https:\/\/youtu\.be\/dQw4w9WgXcQ permanent/}' /etc/nginx/sites-available/default
+
+# Restarting nginx
 sudo service nginx restart
