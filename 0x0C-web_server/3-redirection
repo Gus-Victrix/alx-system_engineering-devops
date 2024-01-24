@@ -5,9 +5,9 @@ sudo apt update
 # Installing nginx with extras
 sudo apt install nginx-extras -y --allow-downgrades
 # Owning the directories that nginx will use
-sudo chown -R $USER:$USER /var/www
+sudo chown -R "$USER:$USER" /var/www
 # Create a new html file for the server
-sudo cat > /etc/nginx/html/index.html <<EOF
+cat > /etc/nginx/html/index.html <<EOF
 <!DOCTYPE html>
 <html>
 	<head>
