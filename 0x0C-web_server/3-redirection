@@ -1,28 +1,29 @@
 #!/usr/bin/env bash
+# When run on an ubuntu server, this script installs nginx and makes it display helo world by default.
 
-# Update the apt repositories
-sudo apt update
-# Installing nginx with extras
-sudo apt install nginx-extras -y --allow-downgrades
-# Owning the directories that nginx will use
-sudo chown -R "$USER:$USER" /var/www
-# Create a new html file for the server
-cat > /etc/nginx/html/index.html <<EOF
+# Updating the apt-get repository
+sudo apt-get update
+# Installing nginx on server
+sudo apt-get install -y nginx-extras --allow-downgrades
+
+# Owning the directories relevant to the site
+sudo chown -R "$USER:$USER" /var/www/html
+
+# Modify the file served by nginx on default
+cat > /var/www/html/index.html << EOF
 <!DOCTYPE html>
-<html>
+<html lang="en">
 	<head>
-		<title>Intrepidus Group</title>
+		<title> Hello World! </title>
 	</head>
 	<body>
-		<h1>Intrepidus Group</h1>
-		<p>Hello World!</p>
+		<h1> Hello World! </h1>
 	</body>
 </html>
 EOF
 
-
-# Setting up the default nginx site with a redirection
-sudo sed -iE '0,/listen [0-9]+ default_server;/{s/(\w) [0-9]+ (\w)/\1 80 \2\;\n    rewrite \^\/redirect_me https:\/\/youtu\.be\/dQw4w9WgXcQ permanent/}' /etc/nginx/sites-available/default
-
-# Restarting nginx
+# Ensure that the default server of nginx listens at port 80
+sudo sed -Ei '0,/listen [0-9]+ default_server/{s/(\w) [0-9]+ (\w)/\1 80 \2/}' /etc/nginx/sites-available/default
+sudo sed -Ei '0,/listen 80 default_server;/a\    rewrite \^\/\/redirect_me http:\/\/youtube.com permanent;' /etc/nginx/sites-available/default
+# Restart the nginx service
 sudo service nginx restart
