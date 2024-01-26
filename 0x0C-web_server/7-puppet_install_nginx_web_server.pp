@@ -1,6 +1,12 @@
 #!/usr/bin/puppet
 # Using pp to do all previous tasks
 
+# Installing the puppet stdlib module for access to file_line
+exec { 'install_stdlib':
+  command => '/usr/bin/puppet module install puppetlabs-stdlib',
+  unless  => '/usr/bin/puppet module list | grep -q stdlib',
+}
+
 # Updating apt cache
 exec { 'apt-update':
   command     => '/usr/bin/apt-get update',
@@ -27,26 +33,29 @@ file { '/var/www/html/404.html':
 }
 
 # Preventing hash bucket memory problems
-fileline { 'nginx':
+file_line { 'hash_bucket':
   ensure => 'present',
   path   => '/etc/nginx/nginx.conf',
   line   => 'server_names_hash_bucket_size 64;',
+  require => Exec['install_stdlib'],
 }
 
 # Creating redirect
-fileline { 'redirect':
+file_line { 'redirect':
   ensure => 'present',
   path   => '/etc/nginx/sites-available/default',
   after  => 'listen 80 default_server;',
   line   => 'rewrite ^/redirect_me https://youtube.com permanent;',
+  require => Exec['install_stdlib'],
 }
 
 # Creating custom 404
-fileline {'404':
+file_line {'404':
   ensure => 'present',
   path   => '/etc/nginx/sites-available/default',
-  after  => 'listen 80 default_server;',
+  after  => 'listen [::]:80 default_server',
   line   => 'error_page 404 /404.html;',
+  require => Exec['install_stdlib'],
 }
 
 # Letting nginx through firewall
@@ -65,5 +74,5 @@ exec { 'ufw-restart':
 # Making sure nginx is running
 service { 'nginx':
   ensure  => running,
-  require => Package['nginx'],
+  require => Package['nginx-extras'],
 }
