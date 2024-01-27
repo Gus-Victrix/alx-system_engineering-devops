@@ -14,7 +14,7 @@ exec { 'apt-update':
 }
 
 # Installing nginx
-package { 'nginx-extras':
+package { 'nginx':
   ensure  => installed,
   require => Exec['apt-update'],
   provider => 'apt',
@@ -32,30 +32,10 @@ file { '/var/www/html/404.html':
   content => 'Ceci n\'est pas une page',
 }
 
-# Preventing hash bucket memory problems
-file_line { 'hash_bucket':
-  ensure => 'present',
-  path   => '/etc/nginx/nginx.conf',
-  line   => 'server_names_hash_bucket_size 64;',
-  require => Exec['install_stdlib'],
-}
-
-# Creating redirect
-file_line { 'redirect':
-  ensure => 'present',
-  path   => '/etc/nginx/sites-available/default',
-  after  => 'listen 80 default_server;',
-  line   => 'rewrite ^/redirect_me https://youtube.com permanent;',
-  require => Exec['install_stdlib'],
-}
-
-# Creating custom 404
-file_line {'404':
-  ensure => 'present',
-  path   => '/etc/nginx/sites-available/default',
-  after  => 'listen [::]:80 default_server',
-  line   => 'error_page 404 /404.html;',
-  require => Exec['install_stdlib'],
+# Modifying default nginx config
+exec { 'modifying_default':
+ command => '/usr/bin/sed -i \'s/root \/var\/www\/html;/root \/var\/www\/html;\n\trewrite ^\/redirect_me https:\/\/youtube.com permanent;\n\terror_page 404 \/404.html;/\' /etc/nginx/sites-available/default',
+ require => Package['nginx'],
 }
 
 # Letting nginx through firewall
@@ -68,11 +48,10 @@ exec { 'ufw-nginx':
 exec { 'ufw-restart':
   command     => '/usr/sbin/ufw restart',
   refreshonly => true,
-  require     => Exec['ufw-nginx'],
 }
 
 # Making sure nginx is running
-service { 'nginx':
+service { 'nginx_service':
   ensure  => running,
-  require => Package['nginx-extras'],
+  require => Package['nginx'],
 }
