@@ -2,5 +2,51 @@
 # Add a new line in the header
 apt update -y
 apt install nginx -y
-sed -i "/listen \[::\]:80 default_server;/a\add_header X-Served-By $(hostname);" /etc/nginx/sites-available/default
+
+cat << EOF > /var/www/html/index.html
+<!DOCTYPE html>
+	<html>
+		<head>
+			<title>Hello World</title>
+		</head>
+		<body>
+			<h1>Hello World</h1>
+			<p>This is a simple HTML file.</p>
+		</body>
+	</html>
+EOF
+
+cat << EOF > /var/www/html/404.html
+<!DOCTYPE html>
+	<html>
+		<head>
+			<title>404 Not Found</title>
+		</head>
+		<body>
+			<h1>404 Not Found</h1>
+			<p>Ceci n'est pas une page.</p>
+		</body>
+	</html>
+EOF
+
+cat << EOF > /etc/nginx/sites-available/default
+server {
+		listen 80 default_server;
+		listen [::]:80 default_server;
+
+		error_page 404 /404.html;
+		rewrite ^/redirect_me https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;
+		add_header X-Served-By $(hostname);
+		root /var/www/html;
+
+		index index.html index.htm index.nginx-debian.html;
+
+		server_name _;
+
+		location / {
+				try_files \$uri \$uri/ =404;
+		}
+}
+EOF
+ufw allow 'Nginx HTTP'
 service nginx restart
