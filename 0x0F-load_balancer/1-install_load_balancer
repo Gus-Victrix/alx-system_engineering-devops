@@ -2,12 +2,14 @@
 #Install a proxy on the load balancer
 apt-get update
 apt-get install -y haproxy
-echo "frontend http
+cat << EOF >> /etc/haproxy/haproxy.cfg
+frontend http
         bind *:80
         mode http
         default_backend web-backend
 backend web-backend
         balance roundrobin
-        server 3270-web-01 34.148.245.248:80 check
-        server 3272-web-02 34.138.44.159:80 check" >> /etc/haproxy/haproxy.cfg
+        server 199656-web-01 34.207.63.26:80 check
+        server 199656-web-02 100.26.11.171:80 check
+EOF
 service haproxy restart
