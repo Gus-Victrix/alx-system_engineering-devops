@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# Simpler way to make nginx listen on port 80 and hide it's activity
+ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
+sudo service nginx restart
+sudo sed -i 's#pid /run/nginx.pid#pid /run/not_nginx.pid,' /etc/nginx/nginx.conf
