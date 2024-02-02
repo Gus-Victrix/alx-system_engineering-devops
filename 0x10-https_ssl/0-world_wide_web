@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+# Returns A record information for a domain with the subdomains
+
+dig_domain() {
+	IFS=' ' read -ra items <<< "$(dig "$2.$1" +noall +answer | tr '\t' ' ')";
+	echo "$2 ${items[3]} ${items[4]}"| awk '{print "The subdomain " $1 " is a " $2 " record and points to " $3}';
+}
+
+if [ -z "$1" ]; then
+	echo "Usage: $0 <domain>";
+	exit 1;
+fi
+
+if [ -z "$2" ]; then
+	subdomains=("www" "lb-01" "web-01" "web-02");
+	for subdomain in "${subdomains[@]}";
+	do
+		dig_domain "$1" "$subdomain"
+	done
+else
+	subdomain="$2";
+	dig_domain "$1" "$subdomain";
+fi
