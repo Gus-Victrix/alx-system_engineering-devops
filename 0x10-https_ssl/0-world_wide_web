@@ -1,23 +1,18 @@
 #!/usr/bin/env bash
-# Returns A record information for a domain with the subdomains
+# Dig all subdomain of given website
 
-dig_domain() {
-	IFS=' ' read -ra items <<< "$(dig "$2.$1" +noall +answer | tr '\t' ' ')";
-	echo "$2 ${items[3]} ${items[4]}"| awk '{print "The subdomain " $1 " is a " $2 " record and points to " $3}';
+digDomain () {
+    line=$(dig "$2"."$1" | grep -A1 'ANSWER SECTION:' | tr '\t' '\n' | tail -2 | tr '\n' ' ')
+    echo "$2 $line" | awk '{print "The subdomain " $1 " is a " $2 " record and points to " $3}'
 }
 
-if [ -z "$1" ]; then
-	echo "Usage: $0 <domain>";
-	exit 1;
-fi
-
-if [ -z "$2" ]; then
-	subdomains=("www" "lb-01" "web-01" "web-02");
-	for subdomain in "${subdomains[@]}";
-	do
-		dig_domain "$1" "$subdomain"
-	done
-else
-	subdomain="$2";
-	dig_domain "$1" "$subdomain";
+if [ "$#" == 1 ]
+then
+  digDomain "$1" "www"
+  digDomain "$1" "lb-01"
+  digDomain "$1" "web-01"
+  digDomain "$1" "web-02"
+elif [ "$#" == 2 ]
+then
+  digDomain "$1" "$2"
 fi
