@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 """
-Python file 0x16 - API Advenced
+Print sorted count of given keywords
 """
 
 import requests
@@ -14,41 +14,33 @@ def count_words(subreddit, word_list, dictWord={}, after=None):
     (case-insensitive, delimited by spaces. Javascript should count as
     javascript, but java should not)
     """
-    if subreddit is None:
-        print(None)
-    URL = 'http://www.reddit.com/r/{}/hot.json'.format(subreddit)
-    headers = {
-        'User-Agent': 'Holberton User Agent 1.0',
-        'From': 'mickael.boillaud@gmail.com',
-    }
-    response = requests.get(
-        URL,
-        headers=headers,
-        params={'after': after, 'limit': 10}
-    )
-    if response.status_code == 404:
-        return
-    data = response.json()
-    allHot = data.get("data", {}).get("children", None)
-    after = data.get("data", {}).get("after", None)
-    for hotPost in allHot:
-        title = hotPost.get("data", {}).get("title", "").lower().split()
+    headers = {'User-Agent': 'Mozilla/5.0'}
+    url = 'https://www.reddit.com/r/{}/hot.json'.format(subreddit)
+    params = {'limit': 100, 'after': after}
+    response = requests.get(url, headers=headers, params=params,
+                            allow_redirects=False)
+
+    if response.status_code != 200:
+        return None
+
+    data = response.json().get('data')
+    after = data.get('after')
+    children = data.get('children')
+
+    for child in children:
+        title = child.get('data').get('title').lower().split()
         for word in word_list:
             if word.lower() in title:
-                totalIteration = 0
-                for w in title:
-                    if word.lower() == w:
-                        totalIteration += 1
-                if word.lower() not in dictWord.keys():
-                    dictWord[word.lower()] = totalIteration
+                if word in dictWord:
+                    dictWord[word] += 1
                 else:
-                    dictWord[word.lower()] += totalIteration
-    if after is None:
+                    dictWord[word] = 1
+
+    if after:
+        return count_words(subreddit, word_list, dictWord, after)
+    else:
         if len(dictWord) == 0:
-            pass
-        else:
-            dictWord = sorted(dictWord.items(), key=lambda kv: (-kv[1], kv[0]))
-            for key, value in dictWord:
-                print('{}: {}'.format(key, value))
-        return
-    return count_words(subreddit, word_list, dictWord, after)
+            return None
+        for key, value in sorted(dictWord.items(),
+                                 key=lambda x: (-x[1], x[0])):
+            print('{}: {}'.format(key, value))
