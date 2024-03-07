@@ -18,8 +18,8 @@ def recurse(subreddit, hot_list=[], after=None):
         print(None)
     URL = 'http://old.reddit.com/r/{}/hot.json'.format(subreddit)
     headers = {
-        'User-Agent': 'Holberton User Agent 1.0',
-        'From': 'mickael.boillaud@gmail.com',
+        'User-Agent': 'An inspiring man',
+        'From': 'iamfrsncis@gmail.com',
     }
     response = requests.get(
         URL,
