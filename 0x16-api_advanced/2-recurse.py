@@ -16,7 +16,7 @@ def recurse(subreddit, hot_list=[], after=None):
     """
     if subreddit is None:
         print(None)
-    URL = 'http://www.reddit.com/r/{}/hot.json'.format(subreddit)
+    URL = 'http://old.reddit.com/r/{}/hot.json'.format(subreddit)
     headers = {
         'User-Agent': 'Holberton User Agent 1.0',
         'From': 'mickael.boillaud@gmail.com',
