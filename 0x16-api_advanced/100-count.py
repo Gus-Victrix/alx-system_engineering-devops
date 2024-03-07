@@ -15,7 +15,7 @@ def count_words(subreddit, word_list, dictWord={}, after=None):
     javascript, but java should not)
     """
     headers = {'User-Agent': 'Mozilla/5.0'}
-    url = 'https://www.reddit.com/r/{}/hot.json'.format(subreddit)
+    url = 'https://old.reddit.com/r/{}/hot.json'.format(subreddit)
     params = {'limit': 100, 'after': after}
     response = requests.get(url, headers=headers, params=params,
                             allow_redirects=False)
