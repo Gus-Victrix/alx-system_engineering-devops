@@ -30,15 +30,16 @@ server {
 		proxy_set_header X-Served-By $hostname;
 	}
 
-	location / {
-		proxy_pass http://0.0.0.0:5003/;
-		proxy_set_header X-Served-By $hostname;
-	}
-
 
 	root /var/www/html;
 
 	index index.html index.htm index.nginx-debian.html;
 
 	server_name _;
+
+	location / {
+		proxy_pass http://0.0.0.0:5003:/2-hbnb;
+		proxy_set_header X-Served-By $hostname;
+		try_files $uri $uri/ =404;
+	}
 }
