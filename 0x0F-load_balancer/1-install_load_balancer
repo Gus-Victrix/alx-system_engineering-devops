@@ -9,7 +9,7 @@ frontend http
         default_backend web-backend
 backend web-backend
         balance roundrobin
-        server 199656-web-01 34.207.63.26:80 check
-        server 199656-web-02 100.26.11.171:80 check
+        server web-01 34.207.63.26:80 check
+        server web-02 100.26.11.171:80 check
 EOF
 service haproxy restart
